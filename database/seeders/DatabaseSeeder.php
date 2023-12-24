@@ -3,6 +3,10 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\AppPayroll;
+use App\Models\AppPresence;
+use App\Models\AppUser;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,5 +24,16 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        $this->call([
+            AppRoleSeeder::class,
+            AppCompanySeeder::class,
+            AppUserSeeder::class,
+            AppDepartmentSeeder::class
+        ]);
+
+        AppUser::factory(150)->create();
+        AppPresence::factory(300)->create();
+        AppPayroll::factory(300)->create();
     }
 }
