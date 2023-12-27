@@ -34,6 +34,18 @@ class CompanyServiceQuery
 			->offset($offset)
 			->get();
 
-		return Wrapper::data($result);
+		$resultCount = DB::table("app_companies")
+			->whereRaw("? = ''", [$search])
+			->orWhereRaw("companyname ILIKE '%' || ? || '%'", [$search])
+			->orWhereRaw("about ILIKE '%' || ? || '%'", [$search])
+			->orWhereRaw("address ILIKE '%' || ? || '%'", [$search])
+			->orWhereRaw("companymail ILIKE '%' || ? || '%'", [$search])
+			->orWhereRaw("contactnumber ILIKE '%' || ? || '%'", [$search])
+			->count();
+
+		return Wrapper::data([
+			'result' => $result,
+			'resultCount' => $resultCount
+		]);
 	}
 }
