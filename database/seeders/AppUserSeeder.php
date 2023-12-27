@@ -30,7 +30,7 @@ class AppUserSeeder extends Seeder
         AppUser::insert([
             [
                 'email' => 'admincomp1@gmail.com',
-                'password' => Hash::make('test123', ['memory' => 1024, 'time' => 2, 'threads' => 2]),
+                'password' => Hash::make('test123456', ['memory' => 1024, 'time' => 2, 'threads' => 2]),
                 'rolecode' => 'admin',
                 'fullname' => 'Admin Company 1',
                 'dateofbirth' => '1980-01-01',
@@ -40,7 +40,7 @@ class AppUserSeeder extends Seeder
             ],
             [
                 'email' => 'admincomp2@gmail.com',
-                'password' => Hash::make('test123', ['memory' => 1024, 'time' => 2, 'threads' => 2]),
+                'password' => Hash::make('test123456', ['memory' => 1024, 'time' => 2, 'threads' => 2]),
                 'rolecode' => 'admin',
                 'fullname' => 'Admin Company 2',
                 'dateofbirth' => '1990-01-01',

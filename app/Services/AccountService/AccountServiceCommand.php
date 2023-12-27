@@ -26,10 +26,11 @@ class AccountServiceCommand
 		}
 		$createToken = $checkEmail->createToken($payload['email']);
 
-		print_r($passwordCheck);
 		return Wrapper::data([
 			'email' => $payload['email'],
 			'rolecode' => $checkEmail->rolecode,
+			'rolename' => $checkEmail->role->rolename,
+			'fullname' => $checkEmail->fullname,
 			'userid' => $createToken->token->user_id,
 			'token' => $createToken->accessToken
 		]);
@@ -45,9 +46,10 @@ class AccountServiceCommand
 		$address = $payload['address'];
 
 		$companyname = $payload['companyname'];
-		$industry = $payload['industry'];
+		$about = $payload['about'];
 		$companyaddress = $payload['companyaddress'];
 		$contactnumber = $payload['contactnumber'];
+		$companymail = $payload['companymail'];
 
 		$checkUser = AppUser::where('email', $email)->get();
 		if (count($checkUser) > 0) {
@@ -76,9 +78,10 @@ class AccountServiceCommand
 		$newCompany = [
 			'companycode' => $newCompanyCode,
 			'companyname' => $companyname,
-			'industry' => $industry,
+			'about' => $about,
 			'address' => $companyaddress,
-			'contactnumber' => $contactnumber
+			'contactnumber' => $contactnumber,
+			'companymail' => $companymail
 		];
 
 		DB::beginTransaction();

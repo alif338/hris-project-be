@@ -4,8 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\AppCompany;
 use App\Models\AppDepartment;
+use App\Models\AppUser;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class AppDepartmentSeeder extends Seeder
 {
@@ -56,5 +58,24 @@ class AppDepartmentSeeder extends Seeder
                 'departmentdesc' => "Conducts research and develops new products or services."
             ],
         ]);
+
+        $companies = AppCompany::all();
+        foreach ($companies as $idx => $company) {
+            foreach ($company->departments()->get() as $department) {
+                AppUser::insert([
+                    [
+                        'email' => 'admindept' . explode('-', $department->departmentid)[0] . '@gmail.com',
+                        'password' => Hash::make('test123456', ['memory' => 1024, 'time' => 2, 'threads' => 2]),
+                        'rolecode' => 'admin_dept',
+                        'address' => fake()->streetAddress(),
+                        'fullname' => 'Admin Dept. '.$department->departmentname,
+                        'dateofbirth' => fake()->date(),
+                        'phonenumber' => fake()->phoneNumber(),
+                        'companycode' => $company->companycode,
+                        'departmentid' => $department->departmentid
+                    ]
+                ]);
+            }
+        }
     }
 }

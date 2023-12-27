@@ -26,7 +26,7 @@ class AccountController extends Controller
         ]);
 
         if ($validatePayload->fails()) {
-            return Wrapper::response(false, null, $validatePayload->errors()->all(), 400);
+            return Wrapper::response(false, null, join("\n", $validatePayload->errors()->all()), 400);
         }
 
         $response = $this->accountServiceCommand->login($validatePayload->getData());
@@ -44,15 +44,16 @@ class AccountController extends Controller
             'password' => 'required',
             'fullname' => 'required',
             'phonenumber' => 'nullable',
-            'dateofbirth' => 'nullable',
+            'dateofbirth' => 'nullable|date',
             'address' => 'nullable',
             'companyname' => 'required',
-            'industry' => 'nullable',
-            'companyaddress' => 'nullable',
-            'contactnumber' => 'nullable'
+            'about' => 'required',
+            'companyaddress' => 'required',
+            'companymail' => 'required',
+            'contactnumber' => 'required'
         ]);
         if ($validatePayload->fails()) {
-            return Wrapper::response(false, null, $validatePayload->errors()->all(), 400);
+            return Wrapper::response(false, null, join("\n", $validatePayload->errors()->all()), 400);
         }
 
         $response = $this->accountServiceCommand->newUserCompany($validatePayload->getData());
@@ -60,10 +61,20 @@ class AccountController extends Controller
             return Wrapper::response(false, null, $response['err'], 400);
         }
 
+        return Wrapper::response(true, $response['data'], "Register success. Use your credential for login.");
+    }
+
+    public function userInfoHandler()
+    {
+        $response = $this->accountServiceQuery->userInfo();
+        if ($response['err'] != null) {
+            return Wrapper::response(false, null, $response['err'], 400);
+        }
+
         return Wrapper::response(true, $response['data'], 'register success');
     }
 
-    public function logoutHandler(Request $request)
+    public function logoutHandler()
     {
         $response = $this->accountServiceCommand->logout();
         if ($response['err'] != null) {
@@ -92,7 +103,7 @@ class AccountController extends Controller
         ]);
 
         if ($validatePayload->fails()) {
-            return Wrapper::response(false, null, $validatePayload->errors()->all(), 400);
+            return Wrapper::response(false, null, join("\n", $validatePayload->errors()->all()), 400);
         }
 
         $response = $this->accountServiceCommand->addRemovePermission($validatePayload->getData());
