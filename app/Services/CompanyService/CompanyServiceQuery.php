@@ -23,8 +23,7 @@ class CompanyServiceQuery
 			return Wrapper::error("you're not superadmin");
 		}
 
-		$result = DB::table("app_companies")
-			->whereRaw("? = ''", [$search])
+		$result = AppCompany::whereRaw("? = ''", [$search])
 			->orWhereRaw("companyname ILIKE '%' || ? || '%'", [$search])
 			->orWhereRaw("about ILIKE '%' || ? || '%'", [$search])
 			->orWhereRaw("address ILIKE '%' || ? || '%'", [$search])
@@ -34,8 +33,7 @@ class CompanyServiceQuery
 			->offset($offset)
 			->get();
 
-		$resultCount = DB::table("app_companies")
-			->whereRaw("? = ''", [$search])
+		$resultCount = AppCompany::whereRaw("? = ''", [$search])
 			->orWhereRaw("companyname ILIKE '%' || ? || '%'", [$search])
 			->orWhereRaw("about ILIKE '%' || ? || '%'", [$search])
 			->orWhereRaw("address ILIKE '%' || ? || '%'", [$search])

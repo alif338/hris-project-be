@@ -113,4 +113,23 @@ class AccountController extends Controller
 
         return Wrapper::response(true, $response['data'], 'add/update permission successful');
     }
+
+    public function usersMasterDataHandler(Request $request)
+    {
+        $validatePayload = Validator::make($request->all(), [
+            'search' => 'nullable',
+            'limit' => 'nullable|integer',
+            'page' => 'nullable|integer'
+        ]);
+        if ($validatePayload->fails()) {
+            return Wrapper::response(false, null, join("\n", $validatePayload->errors()->all()), 400);
+        }
+
+        $response = $this->accountServiceQuery->usersMasterData($validatePayload->getData());
+        if ($response['err'] != null) {
+            return Wrapper::response(false, null, $response['err'], 400);
+        }
+
+        return Wrapper::response(true, $response['data'], "Get users master data success.");
+    }
 }

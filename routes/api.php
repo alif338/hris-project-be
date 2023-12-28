@@ -34,7 +34,7 @@ Route::get('/401', function () {
 
 Route::post('/login', [AccountController::class, 'loginHandler']);
 Route::post('/register', [AccountController::class, 'newUserCompanyHandler']);
-Route::get('/*', function() {
+Route::get('/*', function () {
     return response()->json([
         'success' => false,
         'message' => 'ROUTE NOT FOUND',
@@ -51,4 +51,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/permission/add-remove', [AccountController::class, 'addRemovePermissionHandler']);
 
     Route::get('/company/list', [CompanyController::class, 'companyListHandler']);
+    Route::get('/masterdata/users', [AccountController::class, 'usersMasterDataHandler']);
 });

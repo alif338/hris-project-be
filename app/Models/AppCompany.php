@@ -14,7 +14,8 @@ class AppCompany extends Model
     protected $fillable = [
         'companycode',
         'companyname',
-        'industry',
+        'about',
+        'companymail',
         'address',
         'contactnumber',
     ];
